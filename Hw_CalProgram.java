@@ -67,7 +67,11 @@ public class Hw_CalProgram {
 		for (int i = 0; i < scores.length; i++) {
 			sum += scores[i];
 		}
-		return (double) (sum - (max + min)) / (scores.length - 2);
+		if (scores.length > 2) {
+			return (double) (sum - (max + min)) / (scores.length - 2);
+		} else {
+			return (double) sum  / (scores.length);
+		}
 
 	}
 
