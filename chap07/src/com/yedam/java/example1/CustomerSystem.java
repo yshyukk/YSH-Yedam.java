@@ -49,7 +49,7 @@ public class CustomerSystem {	//실제로 실행되는 클래스
 		//가입
 		repo.insert(info);
 	}
-	Customer inputAll() {
+	Customer inputAll() {	//회원정보를 입력받는 곳
 		//회원 기본 정보 입력
 		
 		System.out.println("ID > ");
@@ -58,8 +58,14 @@ public class CustomerSystem {	//실제로 실행되는 클래스
 		String name = sc.nextLine();
 		
 		// 회원 등급 선택
+		
+		/*Customer customer = getGrade();
+		customer.setCustomerId(id);
+		customer.setCustomerName(name);
+		*/
+		
 		int selcetd = selectGrade();
-		Customer customer = null;
+		Customer customer = null; 
 		switch(selcetd) {
 		
 		case 1:
