@@ -32,9 +32,9 @@ public class RpgGame implements KeyPad {
 	public void rightUpButton() {
 
 		if (mode == this.NORMAL_MODE) {
-			System.out.println("캐릭터가 위쪽으로 이동한다");
+			System.out.println("캐릭터가 한칸 단위로 점프한다");
 		} else if (mode == this.HARD_MODE) {
-			System.out.println("캐릭터가 두칸단위로 점프한다.");
+			System.out.println("캐릭터가 두칸 단위로 점프한다.");
 		}
 
 	}
@@ -53,7 +53,7 @@ public class RpgGame implements KeyPad {
 
 		if (this.mode == this.NORMAL_MODE) {
 			this.mode = this.HARD_MODE;
-			System.out.println("현재 모드는 HARDL_MODE");
+			System.out.println("현재 모드는 HRAD_MODE");
 		} else if (this.mode == this.HARD_MODE) {
 			this.mode = this.NORMAL_MODE;
 			System.out.println("현재 모드는 NORMAL_MODE");
