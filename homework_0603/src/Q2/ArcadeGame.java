@@ -9,7 +9,7 @@ public class ArcadeGame implements KeyPad {
 
 	// 생성자
 	public ArcadeGame() {
-		this.mode = 1;
+		this.mode = this.NORMAL_MODE;
 		System.out.println("ArcadeGame 실행");
 	}
 
@@ -27,9 +27,9 @@ public class ArcadeGame implements KeyPad {
 
 	@Override
 	public void rightUpButton() {
-		if (mode == 1) {
+		if (this.mode == this.NORMAL_MODE) {
 			System.out.println("캐릭터가 일반 공격");
-		} else if (mode == 2) {
+		} else if (this.mode == this.HARD_MODE) {
 			System.out.println("캐릭터가 연속 공격");
 		}
 
@@ -37,24 +37,22 @@ public class ArcadeGame implements KeyPad {
 
 	@Override
 	public void rightDownButton() {
-		if (mode == 1) {
+		if (this.mode == this.NORMAL_MODE) {
 			System.out.println("캐릭터가  HIT 공격");
-		} else if (mode == 2) {
+		} else if (this.mode == this.HARD_MODE) {
 			System.out.println("캐릭터가 Double HIT 공격");
 		}
 	}
 
 	@Override
 	public void changeMode() {
-		System.out.println("모드변경 : 원하는 모드의 번호를 입력해주세요.");
-		System.out.println("1. NORMAR_MODE | 2. HARD_MODE");
-		int chmode = sc.nextInt();
-		if (chmode == 1) {
-			mode = 1;
+
+		if (this.mode == this.NORMAL_MODE) {
+			this.mode = this.HARD_MODE;
+			System.out.println("현재 모드는 HARD_MODE");
+		} else if (this.mode == this.HARD_MODE) {
+			this.mode = this.NORMAL_MODE;
 			System.out.println("현재 모드는 NORMAL_MODE");
-		}else if (chmode == 2) {
-			mode = 2;
-			System.out.println("현재 모드는 HARDE_MODE");
 		}
 
 	}
