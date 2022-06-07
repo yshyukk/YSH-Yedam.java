@@ -7,23 +7,28 @@ public class Q3 {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 
+		RpgGame rpg = null;
+		ArcadeGame arc = null;
 		int rpgGame = 1;
 		int arcadeGame = 2;
+		int count = 0;
 
 		double randomValue = Math.random();
 		int random = (int) (Math.round(randomValue) + 1);
 		System.out.println(random);
 
+		printMenu();
+		
+		
 		while (true) {
 			// 먼저 RPG인지 ARCADE인지 게임종류
-			System.out.println(
-					"===========================================================================================");
-			System.out.println(
-					"<< 1. LeftUP | 2.LeftDown | 3.RightUp | 4.RightDown | 5.ModeChange | 0.GameChange | 9.EXIT >>");
-			System.out.println(
-					"===========================================================================================");
+			
 			if (random == 1) {
-				RpgGame rpg = new RpgGame();
+				if (count == 0) {
+					rpg = new RpgGame();
+					count++;
+				}
+
 				int selectMenu;
 				selectMenu = sc.nextInt();
 				System.out.println("Choice>> " + selectMenu);
@@ -40,15 +45,20 @@ public class Q3 {
 					rpg.changeMode();
 				} else if (selectMenu == 0) {
 					random = 2;
+					count = 0;
 				} else if (selectMenu == 9) {
 					System.exit(0);
 					break;
 				}
+
 			} else if (random == 2) {
-				ArcadeGame arc = new ArcadeGame();
+				if (count == 0) {
+					count++;
+					arc = new ArcadeGame();
+				}
 				int selectMenu;
-				System.out.println("Choice>> ");
 				selectMenu = sc.nextInt();
+				System.out.println("Choice>> " + selectMenu);
 
 				if (selectMenu == 1) {
 					arc.leftUpButton();
@@ -59,9 +69,10 @@ public class Q3 {
 				} else if (selectMenu == 4) {
 					arc.rightDownButton();
 				} else if (selectMenu == 5) {
-					arc.changeMode(); //changMode했을때 다시 NORMAL모드로 초기화되네..?
+					arc.changeMode();
 				} else if (selectMenu == 0) {
 					random = 1;
+					count = 0;
 				} else if (selectMenu == 9) {
 					System.exit(0);
 					break;
@@ -70,6 +81,15 @@ public class Q3 {
 			}
 		}
 
+	}
+	public static void printMenu() {
+		System.out.println(
+				"===========================================================================================");
+		System.out.println(
+				"<< 1. LeftUP | 2.LeftDown | 3.RightUp | 4.RightDown | 5.ModeChange | 0.GameChange | 9.EXIT >>");
+		System.out.println(
+				"===========================================================================================");
+		
 	}
 
 }
