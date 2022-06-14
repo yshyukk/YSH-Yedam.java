@@ -10,7 +10,7 @@ public class ReadExample {
 		InputStream is = new FileInputStream("D:/dv/temp/test1.db");
 		while (true) {
 			int data = is.read();
-			if (data == -1)
+			if (data == -1)	// 끝까지 돌았을 떄 -1을 반환해서 == 끝까지 돌았을떄 멈춰라!
 				break;
 			System.out.println(data);
 		}
