@@ -4,6 +4,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+//스트림 : 데이터는 스트림을 통해 입출력, 단일 방향으로 연속적으로 흘러감.
+//WRITE ------> PROGRAM --------> READ
+//byte 기반 스트림 : 그림, 멀티미디어 등 
 public class ReadExample {
 
 	public static void main(String[] args) throws Exception {
