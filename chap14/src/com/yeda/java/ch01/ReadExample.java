@@ -4,13 +4,16 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+//스트림 : 데이터는 스트림을 통해 입출력, 단일 방향으로 연속적으로 흘러감.
+//WRITE ------> PROGRAM --------> READ
+//byte 기반 스트림 : 그림, 멀티미디어 등 
 public class ReadExample {
 
 	public static void main(String[] args) throws Exception {
 		InputStream is = new FileInputStream("D:/dv/temp/test1.db");
 		while (true) {
 			int data = is.read();
-			if (data == -1)
+			if (data == -1)	// 끝까지 돌았을 떄 -1을 반환해서 == 끝까지 돌았을떄 멈춰라!
 				break;
 			System.out.println(data);
 		}
