@@ -30,7 +30,7 @@ public class ProductDAO extends DAO {
 			// (prodcut_seq.nextval, ?, ?) -> id 들어갈 부분에 DB에 sequence를 넣어줌.
 			// prodcut_seq.nextval : 자동으로 제품번호가 추가됨
 			// SQL문 해석하면 제품번호는 자동으로 추가되고 나머지부분만 내가 직접 추가한다는 느낌.
-			String sql = "INSERT INTO product VALUES (prodcut_seq.nextval, ?, ?)";
+			String sql = "INSERT INTO product VALUES (product_seq.nextval, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, product.getProductName());
 			pstmt.setInt(2, product.getProductPrice());
@@ -109,7 +109,7 @@ public class ProductDAO extends DAO {
 				pro = new Product();
 				pro.setProductId(rs.getInt("product_id"));
 				pro.setProductName(rs.getString("product_name"));
-				pro.setProductPrice(rs.getInt("prodcut_price"));
+				pro.setProductPrice(rs.getInt("product_price"));
 
 			}
 		} catch (SQLException e) {
@@ -126,14 +126,14 @@ public class ProductDAO extends DAO {
 		Product pro = null;
 		try {
 			connect();
-			String sql = "SELECT * FROM product WHERE product_name = " + ProductName;
+			String sql = "SELECT * FROM product WHERE product_name = '" + ProductName +"'";
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 				pro = new Product();
 				pro.setProductId(rs.getInt("product_id"));
 				pro.setProductName(rs.getString("product_name"));
-				pro.setProductPrice(rs.getInt("prodcut_price"));
+				pro.setProductPrice(rs.getInt("product_price"));
 
 			}
 		} catch (SQLException e) {
