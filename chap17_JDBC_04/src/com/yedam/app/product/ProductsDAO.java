@@ -7,6 +7,21 @@ import java.util.List;
 import com.yedam.app.common.DAO;
 
 public class ProductsDAO extends DAO {
+	// 싱글톤 추가
+	private static ProductsDAO productsDAO = null;
+
+	private ProductsDAO() {
+	}
+
+	public static ProductsDAO getInstance() {
+
+		if (productsDAO == null) {
+			productsDAO = new ProductsDAO();
+
+		}
+		return productsDAO;
+	}
+
 	// 등록
 	// VO객체로 넘겨받음
 	public void insert(Product product) {
@@ -36,7 +51,7 @@ public class ProductsDAO extends DAO {
 	}
 
 	// 수정 - 재고
-	public void update(Product product) {
+	public void updateStock(Product product) {
 		// 항상 SQL문 사용할때는 try - catch - finally
 		try {
 			connect();
@@ -55,6 +70,24 @@ public class ProductsDAO extends DAO {
 			e.printStackTrace();
 		} finally {
 			disConnect();
+		}
+	}
+	
+	//수정 - 이름, 가격 (재고 제외)
+	public void updateInfo(Product product) {
+		try {
+			connect();
+			String sql = "UPDATE products SET product_name = ?," + " product_price = ? " + " WHERE product_id = ?";		
+		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, product.getProductName());
+			pstmt.setInt(2, product.getProductPrice());
+			pstmt.setInt(3, product.getProductId());
+			
+			int result = pstmt.executeUpdate();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
 		}
 	}
 
