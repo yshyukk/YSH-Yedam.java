@@ -62,7 +62,7 @@ public class RecivingGoodsDAO extends DAO {
 		return isSelected;
 	}
 
-	// 2. 입고수량 확인
+		// 2. 입고수량 확인
 	public int selecAmount(int productId) {
 		int amount = 0;
 		try {

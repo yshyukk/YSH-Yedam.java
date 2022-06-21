@@ -3,6 +3,7 @@ package com.yedam.app.product;
 import java.util.Scanner;
 
 import com.yedam.app.deal.RecivingGoodsDAO;
+import com.yedam.app.deal.TakeOutGoodsDAO;
 
 public class Management {
 	// 필드

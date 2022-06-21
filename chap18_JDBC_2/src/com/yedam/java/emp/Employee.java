@@ -2,7 +2,7 @@ package com.yedam.java.emp;
 
 import java.sql.Date;
 //VO-->DAO-->SYSTEM--> MAIN
-//VO클래스 : 한 행에 대한 모든값을 가지고 있어야함.
+//VO클래스 : 한 행에 대한 모든값을 가지고 있어야함. = 데이터를 저장하는 용도
 public class Employee {
 	//필드
 		// 해당 테이블의 모든 컬럼이 대응됨.

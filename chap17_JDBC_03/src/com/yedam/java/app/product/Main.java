@@ -10,6 +10,7 @@ public class Main {
 		 * list) { System.out.println(pro);
 		 */
 		new StockManagement();
+		
 	}
 
 }

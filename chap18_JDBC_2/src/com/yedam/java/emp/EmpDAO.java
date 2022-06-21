@@ -30,19 +30,22 @@ public class EmpDAO {
 
 	}
 
-	// Oracle 연결 정보
+	// Oracle 연결 정보 (데이터에 연결할때 필요한 정보)
 	String jdbc_driver;
 	String oracle_url;
 	String id;
 	String connectedId;
 	String connectedPwd;
+	
 	// 각 메서드에서 공통적으로 사용하는 필드
+	// => 데이터베이스를 사용할 때 필요한 도구들
 
 	Connection conn;
 	Statement stmt;
 	PreparedStatement pstmt;
 	ResultSet rs;
 
+	//위에서 정의한 도구들을 이용해 연결.
 	public void connect() {
 		dbConfig();
 		try {
