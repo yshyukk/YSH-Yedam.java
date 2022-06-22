@@ -47,15 +47,16 @@ public class Management {
 	}
 
 	private void menuPrint() {
-		System.out.println("============================================================================");
+		System.out.println("================================================================================");
 		System.out.println("1.전체조회 | 2.단건조회 | 3.내용검색 | 4.대여가능 | 5.책 대여 | 6.책 반납 | 7.책 등록 | 9.종료");
-		System.out.println("============================================================================");
+		System.out.println("================================================================================");
 
 	}
 
 	private int selectMenu() {
 		int menu = 0;
 		try {
+			System.out.println("메뉴선택 > ");
 			menu = Integer.parseInt(sc.nextLine());
 		} catch (NumberFormatException e) {
 			System.out.println("숫자 형식으로 입력해주세요.");

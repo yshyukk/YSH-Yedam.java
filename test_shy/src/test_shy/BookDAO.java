@@ -65,13 +65,7 @@ public class BookDAO {
 		oracle_url = properties.getProperty("url");
 		connectedId = properties.getProperty("id");
 		connectedPwd = properties.getProperty("password");
-		
 
-		System.out.println(jdbc_driver);
-		System.out.println(oracle_url);
-		System.out.println(connectedId);
-		System.out.println(connectedPwd);
-		
 	}
 
 	public void disconnect() {
@@ -125,7 +119,7 @@ public class BookDAO {
 	public void update(Book book) {
 		try {
 			connect();
-			String sql = "UPDATE product SET book_rental =? WHERE book_name";
+			String sql = "UPDATE book SET book_rental =? WHERE book_name";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, book.getBookRental());
 			pstmt.setString(2, book.getBookName());
@@ -147,7 +141,7 @@ public class BookDAO {
 	public void bookIn(String bookName) {
 		try {
 			connect();
-			String sql = "UPDATE books SET book_rental = 0 WHERE book_name = ?";
+			String sql = "UPDATE book SET book_rental = 0 WHERE book_name = ?";
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, bookName);
@@ -169,7 +163,7 @@ public class BookDAO {
 	public void bookOut(String bookName) {
 		try {
 			connect();
-			String sql = "UPDATE books SET book_rental = 1 WHERE book_name = ?";
+			String sql = "UPDATE book SET book_rental = 1 WHERE book_name = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, bookName);
 			int result = pstmt.executeUpdate();
@@ -288,8 +282,10 @@ public class BookDAO {
 		List<Book> list = new ArrayList<>();
 		try {
 			connect();
-			String sql = "SELECT * FROM book WHERE book_rental=0";
-
+			String sql = "SELECT * FROM book WHERE book_rental = 0";
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			
 			while (rs.next()) {
 				Book book = new Book();
 				book.setBookName(rs.getString("book_name"));
