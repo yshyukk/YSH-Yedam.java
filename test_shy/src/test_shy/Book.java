@@ -32,6 +32,7 @@ public class Book {
 		this.bookRental = bookRental;
 	}
 	@Override
+	
 	public String toString() {
 		String str = "";
 		if(bookRental == 0) {

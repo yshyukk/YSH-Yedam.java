@@ -65,6 +65,13 @@ public class BookDAO {
 		oracle_url = properties.getProperty("url");
 		connectedId = properties.getProperty("id");
 		connectedPwd = properties.getProperty("password");
+		
+
+		System.out.println(jdbc_driver);
+		System.out.println(oracle_url);
+		System.out.println(connectedId);
+		System.out.println(connectedPwd);
+		
 	}
 
 	public void disconnect() {
@@ -83,10 +90,11 @@ public class BookDAO {
 		}
 
 	}
-	//CRUD
-	//등록
+
+	// CRUD
+	// 등록
 	public void insert(Book book) {
-		
+
 		try {
 			connect();
 			String sql = "INSERT INTO book VALUES (?,?,?,?)";
@@ -95,24 +103,25 @@ public class BookDAO {
 			pstmt.setString(2, book.getBookWriter());
 			pstmt.setString(3, book.getBookContent());
 			pstmt.setInt(4, book.getBookRental());
-			
+
 			int result = pstmt.executeUpdate();
-			
+
 			if (result > 0) {
 				System.out.println("정상적으로 등록되었습니다.");
-				
-			}else {
+
+			} else {
 				System.out.println("정상적으로 등록되지 않았습니다.");
 			}
-			
-		}catch(SQLException e) {
+
+		} catch (SQLException e) {
 			e.printStackTrace();
-			
-		}finally {
+
+		} finally {
 			disconnect();
-		}		
+		}
 	}
-	//수정
+
+	// 수정
 	public void update(Book book) {
 		try {
 			connect();
@@ -120,115 +129,181 @@ public class BookDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, book.getBookRental());
 			pstmt.setString(2, book.getBookName());
-			
+
 			int result = pstmt.executeUpdate();
-			
-			if(result > 0) {
+
+			if (result > 0) {
 				System.out.println("정상적으로 수정되었습니다.");
-			}else {
+			} else {
 				System.out.println("수정되지 않았습니다.");
 			}
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			disconnect();
 		}
 	}
-	//삭제
+
+	public void bookIn(String bookName) {
+		try {
+			connect();
+			String sql = "UPDATE books SET book_rental = 0 WHERE book_name = ?";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, bookName);
+			int result = pstmt.executeUpdate();
+
+			if (result > 0) {
+				System.out.println("책이 반납되었습니다.");
+			} else {
+				System.out.println("책이 반납되지 않았습니다.");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+	}
+
+	public void bookOut(String bookName) {
+		try {
+			connect();
+			String sql = "UPDATE books SET book_rental = 1 WHERE book_name = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, bookName);
+			int result = pstmt.executeUpdate();
+
+			if (result > 0) {
+				System.out.println("책이 대여되었습니다.");
+			} else {
+				System.out.println("대여 할 수 없습니다.");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+	}
+
+	// 삭제
 	public void delete(String bookName) {
 		try {
 			connect();
 			String sql = "DELETE FROM book WHERE book_name=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, bookName);
-			
-		}catch(SQLException e) {
+
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			disconnect();
 		}
 	}
-	//단건조회
+
+	// 단건조회
 	public Book selectOne(String bookName) {
-		
-		
+
 		Book book = null;
 		try {
 			connect();
-			String sql = "SELECT * FROM book WHERE book_name = '" + bookName +"'";
+			String sql = "SELECT * FROM book WHERE book_name = '" + bookName + "'";
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
-			
+
 			if (rs.next()) {
 				book = new Book();
-				
+
 				book.setBookName(rs.getString("book_name"));
 				book.setBookWriter(rs.getString("book_writer"));
 				book.setBookContent(rs.getString("book_content"));
 				book.setBookRental(rs.getInt("book_rental"));
 			}
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			disconnect();
 		}
 		return book;
 	}
-	
-	//내용검색
-	
+
+	// 내용검색
+
 	public List<Book> selectBookContent(String bookContent) {
-		
+
 		List<Book> list = new ArrayList<Book>();
-		
+
 		try {
 			connect();
 			String sql = "SELECT * FROM book WHERE book_content LIKE '%" + bookContent + "%'";
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
-			
+
 			while (rs.next()) {
 				Book book = new Book();
-				
+
 				book.setBookName(rs.getString("book_name"));
 				book.setBookWriter(rs.getString("book_writer"));
 				book.setBookContent(rs.getString("book_content"));
 				book.setBookRental(rs.getInt("book_rental"));
-				
+
 				list.add(book);
 			}
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			disconnect();
 		}
 		return list;
 	}
-	
-	//전체조회
-	public List<Book> selectAll(){
+
+	// 전체조회
+	public List<Book> selectAll() {
 		List<Book> list = new ArrayList<Book>();
 		try {
 			connect();
 			String sql = " SELECT * FROM book ORDER BY book_name";
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
-			
+
 			while (rs.next()) {
 				Book book = new Book();
 				book.setBookName(rs.getString("book_name"));
 				book.setBookWriter(rs.getString("book_writer"));
 				book.setBookContent(rs.getString("book_content"));
 				book.setBookRental(rs.getInt("book_rental"));
-				
+
 				list.add(book);
 			}
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			disconnect();
 		}
 		return list;
 	}
-	
+
+	// 책 대여 가능 조회
+	public List<Book> bookRental() {
+		List<Book> list = new ArrayList<>();
+		try {
+			connect();
+			String sql = "SELECT * FROM book WHERE book_rental=0";
+
+			while (rs.next()) {
+				Book book = new Book();
+				book.setBookName(rs.getString("book_name"));
+				book.setBookWriter(rs.getString("book_writer"));
+				book.setBookContent(rs.getString("book_content"));
+				book.setBookRental(rs.getInt("book_rental"));
+
+				list.add(book);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return list;
+	}
 }

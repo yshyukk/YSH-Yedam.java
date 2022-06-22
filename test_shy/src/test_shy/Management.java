@@ -25,7 +25,7 @@ public class Management {
 				selectContents();
 			} else if (menuNo == 4) {
 				// 대여가능
-				selectRental();
+				Rental();
 			} else if (menuNo == 5) {
 				// 책 대여
 				bookRental();
@@ -81,10 +81,10 @@ public class Management {
 
 	// 단건조회
 	private void selectOne() {
-		
-		//책이름 입력 ,DB 검색
+
+		// 책이름 입력 ,DB 검색
 		Book book = bDAO.selectOne(inputBookName());
-		//결과출력
+		// 결과출력
 		//
 		if (book != null) {
 			System.out.println(book);
@@ -92,59 +92,60 @@ public class Management {
 			System.out.println("등록되지 않은 도서입니다.");
 		}
 	}
-	
+
 	private String inputBookName() {
 		System.out.println("책 제목 > ");
 		return sc.nextLine();
 	}
+
 	// 내용 검색
 	private void selectContents() {
 		List<Book> list = bDAO.selectBookContent(inputBookContent());
-		for(Book book : list) {
+		for (Book book : list) {
 			System.out.println(book);
 		}
-		
+
 	}
-	
+
 	private String inputBookContent() {
 		System.out.println("검색 내용 > ");
 		return sc.nextLine();
 	}
+
 	// 4. 대여가능
-	private void selectRental () {
-		
-		//
-		Book book = bDAO.selectOne(inputBookName());
-		
-		boolean rental;
-		
-		if (book.getBookRental() == 0) {
-			System.out.println(" 대여가능 ");
-		}else {
-			System.out.println("대여불가");
+	private void Rental() {
+
+		List<Book> list = bDAO.bookRental();
+		for (Book book : list) {
+			System.out.println(book);
+
 		}
 	}
+
 	// 5.책 대여
 	private void bookRental() {
-		
+		String bookName = inputBookName();
+		bDAO.bookOut(bookName);
 	}
-	//6. 책 반납
+
+	// 6. 책 반납
 	private void bookReturn() {
-		
+		String bookName = inputBookName();
+		bDAO.bookIn(bookName);
 	}
-	//7. 책 정보등록
+
+	// 7. 책 정보등록
 	private void inBook() {
-		//책제목 저자 내용 입력
+		// 책제목 저자 내용 입력
 		Book book = infoBook();
-		//등록되어있는지?
+		// 등록되어있는지?
 		bDAO.insert(book);
-		
-		
-		
+
 	}
+
 	private Book infoBook() {
 		Book book = new Book();
-		
+
 		System.out.println("책 제목 > ");
 		book.setBookName(sc.nextLine());
 		System.out.println("저자명 > ");
@@ -153,5 +154,5 @@ public class Management {
 		book.setBookContent(sc.nextLine());
 		return book;
 	}
-	
+
 }
