@@ -1,23 +1,36 @@
 package com.yedam.app.product;
 
+import java.util.List;
+
 //products의 정보를 관리
 public class ProductInfoManagement extends Management {
 	// 제품에 대한 정보를 등록, 수정, 삭제
 	public ProductInfoManagement() {
+		//권한확인
+		boolean role = selectRole();
+		
 		while (true) {
-			menuPrint();
+			menuPrint(role);
 
 			int menuNo = menuSelect();
-			if (menuNo == 1) {
+			if (menuNo == 1 && role) {
 				// 제품정보 등록
 				insertProductInfo();
-			} else if (menuNo == 2) {
+			} else if (menuNo == 2 && role) {
 				// 제품정보 수정
 				updateProducInfo();
-			} else if (menuNo == 3) {
+			} else if (menuNo == 3 && role) {
 				// 제품정보 삭제
 				deleteProductInfo();
-			} else if (menuNo == 9) {
+			}else if (menuNo == 4) {
+				// 제품검색
+				selectOne();
+				break;
+			}else if (menuNo == 5) {
+				// 전체조회
+				selectAll();
+				break;
+			}else if (menuNo == 9) {
 				// 뒤로가기
 				back();
 				break;
@@ -27,14 +40,22 @@ public class ProductInfoManagement extends Management {
 			}
 		}
 	}
-
 	// Management(부모)와 메뉴가 다르기 때문에
 	// 다른것들은 같으니까??
-	@Override
-	protected void menuPrint() {
-		System.out.println("=========================================");
-		System.out.println(" 1.제품등록 | 2.제품수정 | 3.제품삭제 | 9.뒤로가기");
-		System.out.println("=========================================");
+	//@Override
+	protected void menuPrint(boolean role) {
+		//권한에 따라 메뉴를 구성
+		String menu = "";
+		if(role) {
+			menu += "1.제품등록 |"
+					+"2.제품수정 | "
+					+"3.제품삭제 ";
+		}
+		menu += "| 4.제품검색 | 5.전체조회 | 9.뒤로가기 |";
+		//해당 메뉴 출력
+		System.out.println("=============================================================");
+		System.out.println(menu);
+		System.out.println("=============================================================");
 	}
 
 	private void back() {
@@ -116,4 +137,23 @@ public class ProductInfoManagement extends Management {
 		}
 		return product;
 	}
+	
+	private void selectOne() {
+		String productName = inputName();
+		
+		Product product = pDAO.selectOne(productName);
+		
+		if(product == null) {
+			System.out.println("등록된 제품이 아닙니다.");
+		}
+		System.out.println(product);
+	}
+	private void selectAll() {
+		List<Product> list = pDAO.selectAll();
+		
+		for(Product product : list) {
+			System.out.println(product);
+		}
+	}
+	
 }

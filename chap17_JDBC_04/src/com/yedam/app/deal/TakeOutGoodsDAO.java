@@ -25,17 +25,22 @@ public class TakeOutGoodsDAO extends DAO{
 		
 		try {
 			connect();
-			String sql = "INSERT INTO take_out_goods + (product_id, product_amount) + VALUES (?,?)";
+			String sql = "INSERT INTO take_out_goods "
+					+ " (product_id, product_amount) "
+					+ " VALUES (?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, info.getProductId());
-			pstmt.setInt(2,info.getProductAmount());
+			pstmt.setInt(2, info.getProductAmount());
+			
+			int result = pstmt.executeUpdate();
+			
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
 			disConnect();
 		}
 	}
-	//단건조회
+	//단건조회 -출고량
 	public boolean selectoutInfo(int productId) {
 		boolean isSelected = false;
 		// 1. 출고내역 존재 유무
@@ -80,14 +85,16 @@ public class TakeOutGoodsDAO extends DAO{
 
 	
 	//전체조회
-	// 1.현재까지 출고된 내역
+	// 1.현재까지 출고된 내역(전체 출고내역)
 	public List<DealInfo> selectAll() {
 		List<DealInfo> list = new ArrayList<>();
 
 		try {
 			connect();
-			String sql = "SELECT t.deal_date, t.product_id, t.product_name, t.product_amount + FROM products p"
-					+ " JOIN take_out_goods t ON p.product_id = t.product_id" + " ORDER BY t.deal_date";
+			String sql = "SELECT t.deal_date, p.product_id, p.product_name, t.product_amount "
+					+ " FROM products p"
+					+ " JOIN take_out_goods t ON p.product_id = t.product_id" 
+					+ " ORDER BY t.deal_date";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -106,13 +113,13 @@ public class TakeOutGoodsDAO extends DAO{
 		}
 		return list;
 	}
-	// 2. 해당 날짜에 입고된 내역
+	// 2. 해당 날짜에 출고된 내역
 		public List<DealInfo> selectAll(Date dealDate) {
 			List<DealInfo> list = new ArrayList<>();
 
 			try {
 				connect();
-				String sql = "SELECT t.deal_date, t.product_id, t.product_name, t.product_amount + FROM products p"
+				String sql = "SELECT t.deal_date, t.product_id, p.product_name, t.product_amount + FROM products p"
 						+ " JOIN take_out_goods t ON p.product_id = t.product_id" + " WHERE deal_date = ?"
 						+ " ORDER BY t.deal_date";
 				pstmt = conn.prepareStatement(sql);
@@ -133,13 +140,13 @@ public class TakeOutGoodsDAO extends DAO{
 			}
 			return list;
 		}
-		// 3. 해당 제품에 입고된 내역
+		// 3. 해당 제품에 출고된 내역
 		public List<DealInfo> selectAll(int productId) {
 			List<DealInfo> list = new ArrayList<>();
 
 			try {
 				connect();
-				String sql = "SELECT t.deal_date, t.product_id, t.product_name, t.product_amount + FROM products p"
+				String sql = "SELECT t.deal_date, t.product_id, p.product_name, t.product_amount + FROM products p"
 						+ " JOIN take_out_goods t ON p.product_id = t.product_id" + " WHERE product_id = ?"
 						+ " ORDER BY t.deal_date";
 				pstmt = conn.prepareStatement(sql);

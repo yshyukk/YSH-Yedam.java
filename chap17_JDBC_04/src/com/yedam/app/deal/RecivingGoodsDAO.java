@@ -27,10 +27,15 @@ public class RecivingGoodsDAO extends DAO {
 	public void insert(DealInfo info) {
 		try {
 			connect();
-			String sql = "INSERT INTO receiving_goods + (product_id, product_amount) + VALUES (?, ?)";
+			String sql = "INSERT INTO receiving_goods "
+					+ "(product_id, product_amount)  " + " VALUES (?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, info.getProductId());
 			pstmt.setInt(2, info.getProductAmount());
+			
+			int result = pstmt.executeUpdate();
+			
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -44,12 +49,12 @@ public class RecivingGoodsDAO extends DAO {
 		// 1. 입고내역 존재 유무
 		try {
 			connect();
-			String sql = "SELECT COUNT(*) AS count FROM receiving_goods WHERE porduct_id = " + productId;
+			String sql = "SELECT COUNT(*) AS count FROM receiving_goods WHERE product_id = " + productId;
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 
 			if (rs.next()) {
-				if (rs.getInt("conut") > 0) {
+				if (rs.getInt("count") > 0) {
 					isSelected = true;
 				}
 			}
@@ -90,8 +95,10 @@ public class RecivingGoodsDAO extends DAO {
 
 		try {
 			connect();
-			String sql = "SELECT r.deal_date, r.product_id, r.product_name, r.product_amount + FROM products p"
-					+ " JOIN receiving_goods r ON p.product_id = r.product_id" + " ORDER BY r.deal_date";
+			String sql = "SELECT r.deal_date, p.product_id, p.product_name, r.product_amount "
+					+ " FROM products p"
+					+ " JOIN receiving_goods r ON p.product_id = r.product_id" 
+					+ " ORDER BY r.deal_date";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {

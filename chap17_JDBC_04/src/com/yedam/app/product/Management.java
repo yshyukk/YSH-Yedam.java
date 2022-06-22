@@ -2,6 +2,7 @@ package com.yedam.app.product;
 
 import java.util.Scanner;
 
+import com.yedam.app.common.LoginControl;
 import com.yedam.app.deal.RecivingGoodsDAO;
 import com.yedam.app.deal.TakeOutGoodsDAO;
 
@@ -13,16 +14,20 @@ public class Management {
 	protected TakeOutGoodsDAO tDAO = TakeOutGoodsDAO.getInstance();
 
 	// 생성자 -> run
+	// 생성자에서 while문 사용하는 이유??
+	// 생성자가 인스턴스생성하니까 다른 클래스에서 이 클래스의 인스턴스를 사용하면 생성자안에 while문이 실행된다는 건가?
+	// 생성자가 종료될때까지 계속 반복
+	// ProductInfoManagement();가 실행될때 while문 종료가 안됨 => 생성자를 이용해서 사용 불가능
+	// 그래서 run이라는 메서드로 사용 => 내가 실행시키고자 하는 메서드를 감싸는 역할만
 	public void run() {
-		//생성자에서 while문 사용하는 이유??
-		// 생성자가 인스턴스생성하니까 다른 클래스에서 이 클래스의 인스턴스를 사용하면 생성자안에 while문이 실행된다는 건가?
-		//생성자가 종료될때까지 계속 반복
-		//ProductInfoManagement();가 실행될때 while문 종료가 안됨 => 생성자를 이용해서 사용 불가능
-		//그래서 run이라는 메서드로 사용 => 내가 실행시키고자 하는 메서드를 감싸는 역할만
 		
+
 		while (true) {
+			// menuPrint에 role??? -> 추가하는게 달라지기 때문에
+			//
 			menuPrint();
 			int menuNo = menuSelect();
+
 			if (menuNo == 1) {
 				// 제품정보관리
 				new ProductInfoManagement();
@@ -42,8 +47,9 @@ public class Management {
 
 	// 메소드
 	protected void menuPrint() {
+
 		System.out.println("===============================");
-		System.out.println("1. 제품정보관리 | 2. 제품관리 | 3. 종료");
+		System.out.println("1. 제품정보관리  2. 제품재고관리  9.로그아웃");
 		System.out.println("===============================");
 	}
 
@@ -64,5 +70,16 @@ public class Management {
 
 	protected void showInputError() {
 		System.out.println("메뉴에서 입력해주시기 바랍니다.");
+	}
+	
+	protected boolean selectRole() {
+		// 관리자일때만 role값이 true가 될겁니다.
+		int memberRole = LoginControl.getLoginInfo().getMemberRole();
+		if (memberRole == 0) {
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 }

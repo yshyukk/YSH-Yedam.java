@@ -28,8 +28,8 @@ public class ProductsDAO extends DAO {
 		// 항상 SQL문 사용할때는 try - catch - finally
 		try {
 			connect();
-			String sql = "INSERT INTO products (product_id, product_name, product_price)"
-					+ "VALUES (products_seq.nextval,? ?)";
+			String sql = "INSERT INTO products(product_id, product_name, product_price)"
+					+ " VALUES (products_seq.nextval,?,?)";
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, product.getProductName());
